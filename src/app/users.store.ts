@@ -30,7 +30,7 @@ export const UsersStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
   withComputed(({ users, filter }) => ({
-    
+
     visibleUsers: computed(() => {
       const filteredUsers = filter() === 'active' ? users().
         filter((user) => user.active) : users();
@@ -43,7 +43,7 @@ export const UsersStore = signalStore(
     })
   })),
   withMethods((store, userApi = inject(UserApiService)) => ({
-    
+
     setFilter(filter: UserFilter): void {
       patchState(store, { filter: filter });
     },
@@ -60,9 +60,22 @@ export const UsersStore = signalStore(
           error: 'Could not load users. Please check your connection and try again.'
         });
       }
+    },
+
+    toggleUserStatus(userId: number): void {
+      patchState(store, (state) => ({
+        users: state.users.map((user) => {
+          if (user.id === userId) {
+            return { ...user, active: !user.active };
+          } else {
+            return user;
+          }
+        })
+      }));
     }
+
   })),
-  
+
   withHooks({
     onInit(store) {
       void store.loadUsers();

@@ -1,60 +1,59 @@
 <header class="topbar">
-  <div>
-    <p class="eyebrow">NGRX SIGNAL STORE</p>
-    <h1>Users</h1>
-  </div>
+    <div>
+        <p class="eyebrow">NGRX SIGNAL STORE</p>
+        <h1>Users</h1>
+    </div>
 
-  <div class="counts" aria-label="User totals">
-    <span><strong>{{ store.users().length }}</strong> total</span>
-    <span><strong>{{ store.activeCount() }}</strong> active</span>
-  </div>
+    <div class="counts" aria-label="User totals">
+        <span><strong>{{ store.users().length }}</strong> total</span>
+        <span><strong>{{ store.activeCount() }}</strong> active</span>
+    </div>
 </header>
 
 <main>
-  <nav class="filters" aria-label="Filter users">
-    <button
-      type="button"
-      [class.active]="store.filter() === 'all'"
-      (click)="store.setFilter('all')"
-    >
-      All users
-    </button>
-    <button
-      type="button"
-      [class.active]="store.filter() === 'active'"
-      (click)="store.setFilter('active')"
-    >
-      Active users
-    </button>
-  </nav>
+    <nav class="filters" aria-label="Filter users">
+        <button type="button" [class.active]="store.filter() === 'all'" (click)="store.setFilter('all')">
+            All users
+        </button>
+        <button type="button" [class.active]="store.filter() === 'active'" (click)="store.setFilter('active')">
+            Active users
+        </button>
+    </nav>
 
-  @if (store.loading()) {
+    @if (store.loading()) {
     <p class="message">Loading users...</p>
-  } @else if (store.error()) {
+    } @else if (store.error()) {
     <section class="message error" role="alert">
-      <p>{{ store.error() }}</p>
-      <button type="button" (click)="store.loadUsers()">Try again</button>
+        <p>{{ store.error() }}</p>
+        <button type="button" (click)="store.loadUsers()">Try again</button>
     </section>
-  } @else {
+    } @else {
     <ul class="user-list">
-      @for (user of store.visibleUsers(); track user.id) {
+        @for (user of store.visibleUsers(); track user.id) {
         <li>
-          <span class="avatar" aria-hidden="true">{{ user.name.charAt(0) }}</span>
-          <div class="identity">
-            <h2>{{ user.name }}</h2>
-            <a [href]="'mailto:' + user.email">{{ user.email }}</a>
-          </div>
-          <div class="company">
-            <span>Company</span>
-            {{ user.company }}
-          </div>
-          <span class="status" [class.inactive]="!user.active">
-            {{ user.active ? 'Active' : 'Inactive' }}
-          </span>
+            <span class="avatar" aria-hidden="true">{{ user.name.charAt(0) }}</span>
+            <div class="identity">
+                <h2>{{ user.name }}</h2>
+                <a [href]="'mailto:' + user.email">{{ user.email }}</a>
+            </div>
+            <div class="company">
+                <span>Company</span>
+                {{ user.company }}
+            </div>
+            <span class="status" [class.inactive]="!user.active">
+                {{ user.active ? 'Active' : 'Inactive' }}
+            </span>
+            <button
+                type="button"
+                class="status-action"
+                (click)="store.toggleUserStatus(user.id)"
+            >
+                {{ user.active ? 'Deactivate' : 'Activate' }}
+            </button>
         </li>
-      } @empty {
+        } @empty {
         <li class="message">No users match this filter.</li>
-      }
+        }
     </ul>
-  }
+    }
 </main>
