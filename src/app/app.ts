@@ -1,18 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-
-type Lesson = { eyebrow: string; title: string; concept: string; code: string };
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { UsersStore } from './users.store';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
-  protected count = signal(0);
-  increment() {
-    this.count.update((c: number) => c + 1);
-  }
+  protected readonly store = inject(UsersStore);
 }
