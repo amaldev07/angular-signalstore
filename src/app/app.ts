@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { UsersStore } from './users.store';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +7,14 @@ import { UsersStore } from './users.store';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
-  protected readonly store = inject(UsersStore);
+  count = signal(0);
+  increment() {
+    this.count.update(val => val + 1);
+  }
+  decrement() {
+    this.count.update(val => val - 1);
+  }
+  reset() {
+    this.count.set(0);
+  }
 }
