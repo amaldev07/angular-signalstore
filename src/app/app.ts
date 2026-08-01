@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -17,4 +17,15 @@ export class App {
   reset() {
     this.count.set(0);
   }
+  doubleCount = computed(() => {
+    return this.count() * 2;
+  });
+
+  isPositive = computed(() => {
+    return this.count() > 0;
+  })
+
+  message = computed(() => {
+    return this.isPositive() ? 'Positive' : 'Negative';
+  })
 }
