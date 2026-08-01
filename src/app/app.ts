@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -36,4 +36,10 @@ export class App {
 
     return 'Zero';
   })
+
+  constructor() {
+    effect(() => {
+      console.log('Count changed:', this.count());
+    });
+  }
 }
