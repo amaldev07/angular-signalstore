@@ -26,6 +26,14 @@ export class App {
   })
 
   message = computed(() => {
-    return this.isPositive() ? 'Positive' : 'Negative';
+    if (this.count() > 0) {
+      return 'Positive';
+    }
+
+    if (this.count() < 0) {
+      return 'Negative';
+    }
+
+    return 'Zero';
   })
 }
